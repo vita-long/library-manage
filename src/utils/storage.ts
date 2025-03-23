@@ -95,6 +95,10 @@ class SafeStorage {
       .forEach(key => localStorage.removeItem(key));
   }
 
+  getPrefixKey(key: string): string {
+    return this.prefix + key;
+  }
+
   /**
    * 检测存储是否可用
    */

@@ -4,6 +4,7 @@ import { AuthProvider, useAuth } from '@/components/AuthContext';
 // import { isLogin } from '@/utils/isLogin';
 import Login from './pages/login';
 import Register from './pages/register';
+import { useListenStorage } from '@/hooks/listen-storage';
 
 // 路由懒加载, 并命名
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ './pages/home'));
@@ -22,6 +23,8 @@ const IsLoginRoute = () => {
 };
 
 const App = () => {
+  useListenStorage();
+  
   return (
     <AuthProvider>
       <BrowserRouter>

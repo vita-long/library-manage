@@ -13,5 +13,6 @@ export const tokenManager = {
     authToken = null;
     storage.remove(LOGIN_TOKEN_STORAGE_KEY);
   },
-  getToken: () => authToken || storage.get<string>(LOGIN_TOKEN_STORAGE_KEY)
+  getToken: () => authToken || storage.get<string>(LOGIN_TOKEN_STORAGE_KEY),
+  getPrefixKey: () => storage.getPrefixKey(LOGIN_TOKEN_STORAGE_KEY)
 };
