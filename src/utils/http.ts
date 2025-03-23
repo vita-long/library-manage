@@ -43,7 +43,7 @@ export async function http<T>(
     }
 
     if (data.code === 0) {
-      return data as T;
+      return data.data as T;
     } else {
       return Promise.reject({
         status: data.code,

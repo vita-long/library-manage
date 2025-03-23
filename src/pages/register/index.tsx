@@ -3,6 +3,8 @@ import { Form, Input, Button, Checkbox, message } from 'antd';
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import { http } from '@/utils/http';
+import { CaptchaInput } from '@/components/Captcha';
+import { useNavigate } from 'react-router-dom';
 
 type FieldType = {
   username?: string;
@@ -10,10 +12,12 @@ type FieldType = {
   password?: string;
   confirmPassword?: string;
   agreeTerms?: boolean;
+  captcha: string;
 };
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     if (values.password !== values.confirmPassword) {
@@ -28,10 +32,14 @@ const RegisterPage = () => {
         data: {
           userName: values.username,
           email: values.email,
-          password: values.password
+          password: values.password,
+          captcha: values.captcha
         }
       });
       message.success('注册成功！');
+      setTimeout(() => {
+        navigate('/login');
+      }, 100);
     } finally {
       setLoading(false);
     }
@@ -118,6 +126,8 @@ const RegisterPage = () => {
             />
           </Form.Item>
 
+          <CaptchaInput name="captcha" refreshKey={4} />
+
           {/* 用户协议 */}
           <Form.Item<FieldType>
             name="agreeTerms"
@@ -130,7 +140,7 @@ const RegisterPage = () => {
             ]}
           >
             <Checkbox className="text-gray-600">
-              我已阅读并同意 <a href="javascript:void(0)" className="text-blue-600">用户协议</a>
+              我已阅读并同意 <a className="text-blue-600">用户协议</a>
             </Checkbox>
           </Form.Item>
 

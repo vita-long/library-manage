@@ -20,7 +20,7 @@ const LoginPage = () => {
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     setLoading(true);
     try {
-      const res = await http<{data: { token: string, user: User }}>('http://localhost:4000/user/login', {
+      const res = await http<{ token: string, user: User }>('http://localhost:4000/user/login', {
         method: 'POST',
         data: {
           username: values.username,
@@ -28,7 +28,7 @@ const LoginPage = () => {
         }
       });
       message.success('登录成功！');
-      login(res?.data?.token, res.data?.user);
+      login(res?.token, res?.user);
       setTimeout(() => {
         navigate('/home');
       }, 300);
