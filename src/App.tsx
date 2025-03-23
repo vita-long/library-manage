@@ -8,6 +8,7 @@ import { useListenStorage } from '@/hooks/listen-storage';
 
 // 路由懒加载, 并命名
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ './pages/home'));
+const Books = lazy(() =>  import(/* webpackChunkName: 'books' */ './pages/books'));
 const NotFound = lazy(() =>  import(/* webpackChunkName: 'NotFound' */ '@/components/NotFound'));
 
 // 路由守卫组件
@@ -24,7 +25,7 @@ const IsLoginRoute = () => {
 
 const App = () => {
   useListenStorage();
-  
+
   return (
     <AuthProvider>
       <BrowserRouter>
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/register" element={<Register />} />
           <Route element={<PrivateRoute />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/books" element={<Books />} />
           </Route>
           {/* 未匹配路由重定向 */}
           <Route path="*" element={<NotFound />} />

@@ -1,3 +1,4 @@
+import { getCookie } from "./cookie";
 import { tokenManager } from "./token";
 
 interface RequestOptions extends RequestInit {
@@ -13,16 +14,22 @@ export async function http<T>(
     ...options.headers,
   });
 
-  // 自动添加 Authorization 头
+  const csrfToken = getCookie('XSRF-TOKEN');
+  if (csrfToken) {
+    headers.set('X-XSRF-TOKEN', csrfToken);
+  }
+
+  // 自动添加 authorization 头
   const token = tokenManager.getToken();
   if (token) {
-    headers.set('Authorization', `Bearer ${token}`);
+    headers.set('authorization', `Bearer ${token}`);
   }
 
   const config: RequestInit = {
     ...options,
     headers,
     body: options.data ? JSON.stringify(options.data) : null,
+    credentials: options.credentials || 'include'
   };
 
   try {

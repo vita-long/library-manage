@@ -5,6 +5,7 @@ import type { FormProps } from 'antd';
 import { http } from '@/utils/http';
 import { CaptchaInput } from '@/components/Captcha';
 import { useNavigate } from 'react-router-dom';
+import { DOMAIN_URL } from '@/commons/constants';
 
 type FieldType = {
   username?: string;
@@ -27,7 +28,7 @@ const RegisterPage = () => {
     
     setLoading(true);
     try {
-      await http('http://localhost:4000/user/register', {
+      await http(`${DOMAIN_URL}/user/register`, {
         method: 'POST',
         data: {
           userName: values.username,

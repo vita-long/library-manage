@@ -5,6 +5,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import { http } from '@/utils/http';
 import { useAuth, User } from '@/components/AuthContext';
+import { DOMAIN_URL } from '@/commons/constants';
 
 type FieldType = {
   username?: string;
@@ -20,7 +21,7 @@ const LoginPage = () => {
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     setLoading(true);
     try {
-      const res = await http<{ token: string, user: User }>('http://localhost:4000/user/login', {
+      const res = await http<{ token: string, user: User }>(`${DOMAIN_URL}/user/login`, {
         method: 'POST',
         data: {
           username: values.username,
