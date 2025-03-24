@@ -42,6 +42,10 @@ export async function http<T>(
       throw new Error('会话已过期，请重新登录');
     }
 
+    if (response.status === 419) {
+      window.location.reload(); // 刷新页面获取新 Token
+    }
+
     if (!response.ok) {
       return Promise.reject({
         status: response.status,

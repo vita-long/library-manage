@@ -2,3 +2,19 @@
   margin: 0;
   padding: 0;
 }
+
+
+.ant-list-item {
+  .book-title {
+    width: 100%;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s;
+    
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
