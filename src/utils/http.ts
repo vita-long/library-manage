@@ -2,7 +2,7 @@ import { getCookie } from "./cookie";
 import { tokenManager } from "./token";
 
 interface RequestOptions extends RequestInit {
-  data?: Record<string, unknown>;
+  data?: Record<string, unknown> | FormData;
 }
 
 export async function http<T>(
@@ -28,10 +28,10 @@ export async function http<T>(
   const config: RequestInit = {
     ...options,
     headers,
-    body: options.data ? JSON.stringify(options.data) : null,
+    body: options.data instanceof FormData? options.data : (JSON.stringify(options.data) || null),
     credentials: options.credentials || 'include'
   };
-
+  console.log(config);
   try {
     const response = await fetch(url, config);
     const data = await response.json();
@@ -63,6 +63,7 @@ export async function http<T>(
       });
     }
   } catch (error) {
+    console.log(error);
     return Promise.reject({
       status: 500,
       message: '网络连接异常',

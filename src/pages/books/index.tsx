@@ -51,7 +51,7 @@ const BookList: React.FC = () => {
       title: '确认删除',
       content: '确定要删除这本图书吗？',
       onOk: () => {
-        http(`${DOMAIN_URL}/books/${id}`, {
+        http(`${DOMAIN_URL}/books?id=${id}`, {
           method: 'DELETE'
         });
         message.success('删除成功');
@@ -71,8 +71,13 @@ const BookList: React.FC = () => {
       title: '确认批量删除',
       content: `确定要删除选中的 ${selectedIds.length} 本图书吗？`,
       onOk: () => {
-        const newBooks = books.filter(book => !selectedIds.includes(book.id));
-        setBooks(newBooks);
+        http(`${DOMAIN_URL}/books`, {
+          method: 'DELETE',
+          data: {
+            ids: selectedIds
+          }
+        });
+        fetchBooks(1);
         setSelectedIds([]);
         message.success('批量删除成功');
       }
