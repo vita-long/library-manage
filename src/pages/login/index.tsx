@@ -31,7 +31,7 @@ const LoginPage = () => {
       message.success('登录成功！');
       login(res?.token, res?.user);
       setTimeout(() => {
-        navigate('/home');
+        navigate('/');
       }, 300);
     } finally {
       setLoading(false);

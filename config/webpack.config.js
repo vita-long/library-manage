@@ -44,6 +44,7 @@ module.exports = {
   entry: './src/index.tsx',
   output: {
     path: isDevelopment ? undefined : path.resolve(__dirname, '../dist'),
+    publicPath: '/',
     filename: isDevelopment ? 'static/js/[name].js' : 'static/js/[name].[contenthash:8].js',
     chunkFilename: isDevelopment ? 'static/js/[name].chunk.js' : 'static/js/[name].[contenthash:8].chunk.js',
     assetModuleFilename: 'static/asset/[hash:8][ext][query]',
@@ -92,7 +93,7 @@ module.exports = {
         use: getStyle('stylus-loader')
       },
       {
-        test: /\.(jpeg?|gif|png|webp|svg)$/,
+        test: /\.(jpe?g|gif|png|webp|svg)$/,
         type: 'asset',
         parser: {
           // 小于10kb的要缩成base64
