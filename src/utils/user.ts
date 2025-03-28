@@ -1,10 +1,11 @@
-import { USER_INFO } from "@/commons/constants";
-import { storage } from "./storage";
+import { USER_INFO } from '@/commons/constants';
+import { storage } from './storage';
 
 export type User = {
   id: string;
-  username: string;
+  userName: string;
   email: string;
+  avator: string;
 };
 
 let userInfo: string | null = null;

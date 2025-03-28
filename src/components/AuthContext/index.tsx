@@ -1,12 +1,6 @@
 import React, { createContext, useContext, useState } from 'react';
 import { tokenManager } from '@/utils/token';
-import { userManager } from '@/utils/user';
-
-export type User = {
-  id: string;
-  username: string;
-  email: string;
-};
+import { User, userManager } from '@/utils/user';
 
 type AuthContextType = {
   isAuth: boolean;

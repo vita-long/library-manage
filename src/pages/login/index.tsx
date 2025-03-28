@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
 import { http } from '@/utils/http';
-import { useAuth, User } from '@/components/AuthContext';
+import { useAuth } from '@/components/AuthContext';
 import { DOMAIN_URL } from '@/commons/constants';
+import { User } from '@/utils/user';
 
 type FieldType = {
   username?: string;

@@ -17,22 +17,11 @@ const menuItems = [
   { key: '3', icon: <ContactsOutlined />, label: '联系我们' },
 ];
 
-
-export const PublicLayout = () => (
-  <Layout style={{ minHeight: '100vh' }}>
-    <Outlet />
-  </Layout>
-);
-
 export const PrivateLayout = () => (
   <Layout style={{ minHeight: '100vh' }}>
     <NavigationBar
       logoText="企业门户"
       menuItems={menuItems}
-      isLoggedIn={true}
-      userInfo={{}}
-      onLogin={() => console.log(1)}
-      onLogout={() => console.log(2)}
     />
     <Content style={{ padding: '24px 48px' }}>
       <div style={{
