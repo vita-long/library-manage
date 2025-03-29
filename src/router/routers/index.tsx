@@ -4,10 +4,15 @@ import { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import Login from '@/pages/login';
 import Register from '@/pages/register';
+import LiveRegister from '@/pages/live-register';
+import Live from '@/pages/live';
+import LivePlayer from '@/pages/live/live-player';
+import HlsPlayer from '@/pages/live/hls-player';
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/home'));
 const Upload = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/upload'));
 const Books = lazy(() =>  import(/* webpackChunkName: 'books' */ '@/pages/books'));
 const NotFound = lazy(() =>  import(/* webpackChunkName: 'NotFound' */ '@/components/NotFound'));
+
 
 import { PrivateLayout } from '@/components/Page';
 
@@ -48,6 +53,14 @@ export const routes: CustomRoute[] = [
     }
   },
   {
+    path: '/live-register',
+    key: 'live-register',
+    element: <LiveRegister />,
+    meta: {
+      title: '直播注册'
+    }
+  },
+  {
     path: '/dashboard',
     key: 'dashboard',
     element: <PrivateLayout />,
@@ -67,6 +80,16 @@ export const routes: CustomRoute[] = [
         path: 'upload',
         key: 'dashboard-upload',
         element: <Upload />
+      },
+      {
+        path: 'live',
+        key: 'live',
+        element: <Live />
+      },
+      {
+        path: 'live/:id',
+        key: 'live-id',
+        element: <LivePlayer />
       },
       {
         path: '*',
