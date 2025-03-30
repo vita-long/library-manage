@@ -25,8 +25,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
   logoText = 'Logo',
   menuItems = []
 }) => {
-  const { isAuth, logout, login, user } = useAuth();
-  console.log(user);
+  const { isAuth, logout, user } = useAuth();
   // 处理菜单点击
   const handleMenuClick: MenuProps['onClick'] = (e) => {
     console.log('Menu clicked:', e.key);

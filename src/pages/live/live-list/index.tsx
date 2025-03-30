@@ -4,7 +4,7 @@ import { PlusOutlined } from '@ant-design/icons';
 import CreateStreamModal from '@/components/CreateStreamModal';
 import { Stream } from '@/types/live';
 import { DOMAIN_URL } from '@/commons/constants';
-import { http } from '@/utils/http';
+import httpRequest from '@/utils/http-request';
 
 const { Title } = Typography;
 
@@ -16,11 +16,7 @@ const LiveList = () => {
   // 获取直播间列表
   const loadStreams = async () => {
     try {
-      const data = await http<{ list: any[]}>(`${DOMAIN_URL}/liveRoom`,
-        {
-          method: 'GET'
-        }
-      );
+      const data = await httpRequest.get<null, { list: any[]}>(`${DOMAIN_URL}/liveRoom`);
       setStreams(data.list as any || []);
     } catch (error) {
       console.error('加载失败:', error);
@@ -32,9 +28,7 @@ const LiveList = () => {
   // 删除直播间
   const handleDelete = async (id: string) => {
     try {
-      await http(`${DOMAIN_URL}/liveRoom/${id}`, {
-        method: 'DELETE'
-      });
+      await httpRequest.delete(`${DOMAIN_URL}/liveRoom/${id}`);
       message.success('删除成功');
       loadStreams();
     } catch (error) {

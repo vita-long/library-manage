@@ -4,15 +4,13 @@ import { HeartFilled, HeartOutlined } from '@ant-design/icons';
 import { DOMAIN_URL } from '@/commons/constants';
 // import { useSse } from '@/components/SseContext';
 import { Book } from '@/types/books';
-import { http } from '@/utils/http';
+import httpRequest from '@/utils/http-request';
 
 export const Favorite: React.FC<{ book: Pick<Book, 'bookCode' | 'bookName'> & { isFavorite?: boolean } }> = ({ book }) => {
   const [isFavorite, setIsFavorite] = useState(book.isFavorite);
 
   const toggleFavorite = async () => {
-    const response = await http(`${DOMAIN_URL}/books/toggle-favorite/${book.bookCode}`, {
-      method: 'POST'
-    });
+    const response = await httpRequest.post(`${DOMAIN_URL}/books/toggle-favorite/${book.bookCode}`);
     setIsFavorite(!!response);
   };
 

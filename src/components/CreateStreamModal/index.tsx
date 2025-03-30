@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Modal, Form, Input, message } from 'antd';
 import { DOMAIN_URL } from '@/commons/constants';
-import { http } from '@/utils/http';
+import httpRequest from '@/utils/http-request';
 
 interface Props {
   visible: boolean;
@@ -16,11 +16,8 @@ const CreateStreamModal = ({ visible, onClose, onSuccess }: Props) => {
   const handleSubmit = async (values: { liveName: string }) => {
     try {
       setLoading(true);
-      await http(`${DOMAIN_URL}/liveRoom`, {
-        method: 'POST',
-        data: {
-          ...values
-        }
+      await httpRequest.post(`${DOMAIN_URL}/liveRoom`, {
+        ...values
       });
       message.success('直播间创建成功');
       form.resetFields();

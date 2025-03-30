@@ -8,6 +8,7 @@ import io, { Socket } from 'socket.io-client';
 import './index.less';
 import http from '@/utils/request';
 import { DOMAIN_URL } from '@/commons/constants';
+import httpRequest from '@/utils/http-request';
 // import { DOMAIN_URL, LOGIN_TOKEN_STORAGE_KEY } from '@/commons/constants';
 // import { storage } from '@/utils/storage';
 
@@ -71,8 +72,13 @@ const Home = () => {
     });
     const formData = new FormData();
     formData.append('file', correctedFile);
-    const res = await http.upload<{ file: any; }>(`${DOMAIN_URL}/upload/single`, {
-      files: formData as any,
+    // const res = await http.upload<{ file: any; }>(`${DOMAIN_URL}/upload/single`, {
+    //   files: formData as any,
+    //   headers: {
+    //     'X-Socket-ID': socket && socket.id
+    //   }
+    // });
+    const res = await httpRequest.upload<{data: {file: any}}>(`${DOMAIN_URL}/upload/single`, formData as any, undefined, {
       headers: {
         'X-Socket-ID': socket && socket.id
       }

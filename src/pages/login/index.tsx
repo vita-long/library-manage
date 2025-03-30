@@ -3,10 +3,10 @@ import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
-import { http } from '@/utils/http';
 import { useAuth } from '@/components/AuthContext';
 import { DOMAIN_URL } from '@/commons/constants';
 import { User } from '@/utils/user';
+import httpRequest from '@/utils/http-request';
 
 type FieldType = {
   username?: string;
@@ -22,12 +22,9 @@ const LoginPage = () => {
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
     setLoading(true);
     try {
-      const res = await http<{ token: string, user: User }>(`${DOMAIN_URL}/user/login`, {
-        method: 'POST',
-        data: {
-          username: values.username,
-          password: values.password
-        }
+      const res = await httpRequest.post<FieldType, { token: string, user: User }>(`${DOMAIN_URL}/user/login`, {
+        username: values.username,
+        password: values.password
       });
       message.success('登录成功！');
       login(res?.token, res?.user);

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Input, Space, Spin, Button, Form } from 'antd';
 import { ReloadOutlined } from '@ant-design/icons';
-import { http } from '@/utils/http';
 import { DOMAIN_URL } from '@/commons/constants';
+import httpRequest from '@/utils/http-request';
 
 interface CaptchaInputProps {
   name: string;
@@ -23,9 +23,7 @@ export const CaptchaInput = ({ name, refreshKey }: CaptchaInputProps) => {
     try {
       setLoading(true);
       const timestamp = Date.now();
-      const svg = await http<{ captcha: string }>(`${DOMAIN_URL}/user/captcha?t=${timestamp}`, {
-        method: 'GET'
-      });
+      const svg = await httpRequest.get<any, { captcha: string }>(`${DOMAIN_URL}/user/captcha?t=${timestamp}`);
       setCaptchaSrc(`data:image/svg+xml;utf8,${encodeURIComponent(svg?.captcha)}`);
       setError('');
     } catch (err) {

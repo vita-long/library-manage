@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, message } from 'antd';
 import { MailOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
-import { http } from '@/utils/http';
 import { CaptchaInput } from '@/components/Captcha';
 import { useNavigate } from 'react-router-dom';
 import { DOMAIN_URL } from '@/commons/constants';
+import httpRequest from '@/utils/http-request';
 
 type FieldType = {
   username?: string;
@@ -28,14 +28,11 @@ const RegisterPage = () => {
     
     setLoading(true);
     try {
-      await http(`${DOMAIN_URL}/user/register`, {
-        method: 'POST',
-        data: {
-          userName: values.username,
-          email: values.email,
-          password: values.password,
-          captcha: values.captcha
-        }
+      await httpRequest.post(`${DOMAIN_URL}/user/register`, {
+        userName: values.username,
+        email: values.email,
+        password: values.password,
+        captcha: values.captcha
       });
       message.success('注册成功！');
       setTimeout(() => {

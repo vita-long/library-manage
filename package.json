@@ -69,6 +69,7 @@
   "dependencies": {
     "@ant-design/icons": "^6.0.0",
     "antd": "^5.24.3",
+    "axios": "^1.8.4",
     "flv.js": "^1.6.2",
     "hls.js": "^1.6.0",
     "react": "^18.2.0",

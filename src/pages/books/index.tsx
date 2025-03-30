@@ -17,12 +17,15 @@ import {
   PlusOutlined
 } from '@ant-design/icons';
 import { DOMAIN_URL } from '@/commons/constants';
-import { http } from '@/utils/http';
 import { Book } from '@/types/books';
 import { Favorite } from './components/favorite';
+import httpRequest from '@/utils/http-request';
+import { useAuth } from '@/components/AuthContext';
+
 
 const BookList: React.FC = () => {
   const [form] = Form.useForm();
+  const { logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
@@ -32,16 +35,20 @@ const BookList: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
 
-  // 模拟API调用
   const fetchBooks = async (page: number) => {
     try{
       setLoading(true);
-      const bookList = await http<{ list: Book[], total: number }>(`${DOMAIN_URL}/books?current=${page}&pageSize=${pageSize}`);
+      const bookList = await httpRequest.get<{current: number, pageSize: number}, { list: Book[], total: number }>(`${DOMAIN_URL}/books`,{
+        current: page,
+        pageSize
+      });
       setBooks(bookList.list);
       setTotal(bookList.total);
       setLoading(false);
-    } catch(error) {
-      console.log(error);
+    } catch(error: any) {
+      if (error?.status === 401) {
+        logout();
+      }
     }
   };
 
@@ -51,9 +58,7 @@ const BookList: React.FC = () => {
       title: '确认删除',
       content: '确定要删除这本图书吗？',
       onOk: () => {
-        http(`${DOMAIN_URL}/books?id=${id}`, {
-          method: 'DELETE'
-        });
+        httpRequest.delete(`${DOMAIN_URL}/books?id=${id}`);
         message.success('删除成功');
         fetchBooks(1);
       }
@@ -71,11 +76,8 @@ const BookList: React.FC = () => {
       title: '确认批量删除',
       content: `确定要删除选中的 ${selectedIds.length} 本图书吗？`,
       onOk: () => {
-        http(`${DOMAIN_URL}/books`, {
-          method: 'DELETE',
-          data: {
-            ids: selectedIds
-          }
+        httpRequest.delete(`${DOMAIN_URL}/books`, {
+          ids: selectedIds
         });
         fetchBooks(1);
         setSelectedIds([]);
@@ -88,27 +90,21 @@ const BookList: React.FC = () => {
   const handleSubmit = async (values: Omit<Book, 'id'>) => {
     try {
       if (currentBook) {
-        await http(`${DOMAIN_URL}/books/${currentBook.id}`, {
-          method: 'PUT',
-          data: {
-            bookName: values.bookName,
-            author: values.author,
-            cover: values.cover,
-            description: values.description
-          }
+        await httpRequest.put(`${DOMAIN_URL}/books/${currentBook.id}`, {
+          bookName: values.bookName,
+          author: values.author,
+          cover: values.cover,
+          description: values.description
         });
         fetchBooks(1);
         message.success('更新成功');
       } else {
         // 新增操作
-        const newBook = await http<Book>(`${DOMAIN_URL}/books`, {
-          method: 'POST',
-          data: {
-            bookName: values.bookName,
-            author: values.author,
-            cover: values.cover,
-            description: values.description
-          }
+        const newBook = await httpRequest.post<any, Book>(`${DOMAIN_URL}/books`, {
+          bookName: values.bookName,
+          author: values.author,
+          cover: values.cover,
+          description: values.description
         });
         setBooks([newBook, ...books]);
         message.success('新增成功');
