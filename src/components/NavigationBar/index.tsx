@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Layout, Menu, Button, Avatar, MenuProps } from 'antd';
+import { Layout, Menu, Button, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useAuth } from '@/components/AuthContext';
 import Xian from '../../commons/assets/images/xianlingling.jpg';
@@ -36,7 +36,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
     // 设置选中项
     const matchedKey = menuItems
       .flatMap(item => [item, ...(item.children || [])])
-      .find(item => currentPath.startsWith(item.key))?.key;
+      .find(item => currentPath === item.key)?.key;
 
     setSelectedKeys(matchedKey ? [matchedKey] : []);
 

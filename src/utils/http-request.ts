@@ -97,6 +97,9 @@ class HttpRequest {
   private handleResponseError = async (error: AxiosError) => {
     const formatError = error;
     formatError.message = messages[error.status as number] || `未知HTTP错误 (${error.status})`;
+    if (formatError.status === 401) {
+      window.location.href = '/login';
+    }
     return Promise.reject(formatError);
   };
 
@@ -207,7 +210,9 @@ class HttpRequest {
       url,
       data: files,
       ...config
-    }).then((res) => res.data.data);
+    }).then((res) => {
+      return res.data.data;
+    });
   }
 
   // 取消当前请求

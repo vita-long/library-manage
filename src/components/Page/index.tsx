@@ -12,7 +12,7 @@ import {
 } from '@ant-design/icons';
 
 const menuItems = [
-  { key: '/', icon: <HomeOutlined />, label: '首页' },
+  { key: '/dashboard', icon: <HomeOutlined />, label: '首页' },
   { key: '/dashboard/books', icon: <UserOutlined />, label: '书籍' },
   { key: '/dashboard/upload', icon: <ContactsOutlined />, label: '上传' },
   { key: '/dashboard/live', icon: <ContactsOutlined />, label: '直播' },

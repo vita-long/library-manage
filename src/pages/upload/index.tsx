@@ -6,7 +6,6 @@ import { useAuth } from '@/components/AuthContext';
 import io, { Socket } from 'socket.io-client';
 
 import './index.less';
-import http from '@/utils/request';
 import { DOMAIN_URL } from '@/commons/constants';
 import httpRequest from '@/utils/http-request';
 // import { DOMAIN_URL, LOGIN_TOKEN_STORAGE_KEY } from '@/commons/constants';
@@ -18,6 +17,7 @@ const Home = () => {
   const [progress, setProgress] = useState(0);
   const [socket, setSocket] = useState<Socket | undefined>();
   const [currentUpload, setCurrentUpload] = useState<{file: any, xhr: any} | undefined>();
+  const [image, setImage] = useState<string>();
 
   useEffect(() => {
     
@@ -39,7 +39,7 @@ const Home = () => {
     
     // 监听进度事件
     newSocket.on('upload-progress', (percent) => {
-      if (percent <= 100) {
+      if (percent < 100) {
         setProgress(percent);
       } else {
         setProgress(100);
@@ -72,19 +72,13 @@ const Home = () => {
     });
     const formData = new FormData();
     formData.append('file', correctedFile);
-    // const res = await http.upload<{ file: any; }>(`${DOMAIN_URL}/upload/single`, {
-    //   files: formData as any,
-    //   headers: {
-    //     'X-Socket-ID': socket && socket.id
-    //   }
-    // });
-    const res = await httpRequest.upload<{data: {file: any}}>(`${DOMAIN_URL}/upload/single`, formData as any, undefined, {
+    const res = await httpRequest.upload<{file: any}>(`${DOMAIN_URL}/upload/single`, formData as any, undefined, {
       headers: {
         'X-Socket-ID': socket && socket.id
       }
     });
-    if (res?.data?.file) {
-      setProgress(100);
+    if (res?.file) {
+      setImage(res?.file?.path);
       message.success('上传成功');
       if(socket) {
         socket?.disconnect();
@@ -94,6 +88,15 @@ const Home = () => {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleOCR = async () => {
+    try {
+      const data = await httpRequest.post(`${DOMAIN_URL}/api/ocr`, { file: image });
+      console.log(data);
+    } catch(e) {
+      console.log(e);
+    }
   };
   
   return (
@@ -107,9 +110,10 @@ const Home = () => {
       >
         <Button>上传</Button>
       </Upload>
+      <Button onClick={handleOCR}>OCR识别</Button>
 
       {currentUpload && (
-        <div style={{ marginTop: 16 }}>
+        <div style={{ marginTop: 16, width: '300px' }}>
           <div>{currentUpload.file.name}</div>
           <Progress
             percent={progress}
