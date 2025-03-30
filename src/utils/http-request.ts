@@ -84,7 +84,6 @@ class HttpRequest {
 
   private handleResponseSuccess = (response: AxiosResponse) => {
     const res = response.data;
-    console.log(111, res);
     // 业务逻辑错误处理
     if (res.code !== 0) {
       const error = new Error(res.msg);

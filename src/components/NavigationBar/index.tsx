@@ -1,17 +1,18 @@
-// components/NavigationBar.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Button, Avatar, MenuProps } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { useAuth } from '@/components/AuthContext';
 import Xian from '../../commons/assets/images/xianlingling.jpg';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const { Header } = Layout;
 
 export interface MenuItem {
   key: string;
   icon?: React.ReactNode;
-  label: string;
+  label: React.ReactNode;
   disabled?: boolean;
+  children?: MenuItem[];
 }
 
 interface NavigationBarProps {
@@ -26,10 +27,25 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
   menuItems = []
 }) => {
   const { isAuth, logout, user } = useAuth();
-  // 处理菜单点击
-  const handleMenuClick: MenuProps['onClick'] = (e) => {
-    console.log('Menu clicked:', e.key);
-  };
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [selectedKeys, setSelectedKeys] = useState<string[]>();
+  const [openKeys, setOpenKeys] = useState<string[]>();
+  useEffect(() => {
+    const currentPath = location.pathname;
+    // 设置选中项
+    const matchedKey = menuItems
+      .flatMap(item => [item, ...(item.children || [])])
+      .find(item => currentPath.startsWith(item.key))?.key;
+
+    setSelectedKeys(matchedKey ? [matchedKey] : []);
+
+    // 自动展开父级菜单
+    const parentKeys = menuItems
+      .filter(item => item.children?.some(child => currentPath.startsWith(child.key)))
+      .map(item => item.key);
+    setOpenKeys(parentKeys);
+  }, [location]);
 
   return (
     <Header
@@ -58,8 +74,11 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         <Menu
           mode="horizontal"
           defaultSelectedKeys={['1']}
-          onClick={handleMenuClick}
+          selectedKeys={selectedKeys}
+          openKeys={openKeys}
+          onOpenChange={setOpenKeys}
           items={menuItems}
+          onClick={({key}) => navigate(key)}
           style={{
             flex: 1,
             justifyContent: 'center',
@@ -85,7 +104,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
         ) : (
           <Button 
             type="primary"
-            onClick={() => console.log(1)}
+            onClick={() => window.location.href='/login'}
           >
             登录
           </Button>

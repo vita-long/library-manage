@@ -12,9 +12,10 @@ import {
 } from '@ant-design/icons';
 
 const menuItems = [
-  { key: '1', icon: <HomeOutlined />, label: '首页' },
-  { key: '2', icon: <UserOutlined />, label: '关于我们' },
-  { key: '3', icon: <ContactsOutlined />, label: '联系我们' },
+  { key: '/', icon: <HomeOutlined />, label: '首页' },
+  { key: '/dashboard/books', icon: <UserOutlined />, label: '书籍' },
+  { key: '/dashboard/upload', icon: <ContactsOutlined />, label: '上传' },
+  { key: '/dashboard/live', icon: <ContactsOutlined />, label: '直播' },
 ];
 
 export const PrivateLayout = () => (
