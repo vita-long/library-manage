@@ -98,12 +98,20 @@ const Home = () => {
       console.log(e);
     }
   };
+
+  const handleOCRCar = async () => {
+    try {
+      const data = await httpRequest.post(`${DOMAIN_URL}/api/ocr-car`, { file: image });
+      console.log(data);
+    } catch(e) {
+      console.log(e);
+    }
+  };
   
   return (
     <div className="home">hello Home~~
       <Button type="primary" onClick={handleLogout}>退出登录</Button>
       <Upload
-        // {...props}
         beforeUpload={beforeUpload}
         showUploadList={false}
         maxCount={1}
@@ -111,6 +119,7 @@ const Home = () => {
         <Button>上传</Button>
       </Upload>
       <Button onClick={handleOCR}>OCR识别</Button>
+      <Button onClick={handleOCRCar}>车牌号OCR识别</Button>
 
       {currentUpload && (
         <div style={{ marginTop: 16, width: '300px' }}>
