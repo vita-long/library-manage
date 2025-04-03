@@ -1,9 +1,9 @@
 import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '@/components/AuthContext';
+import useAuthHooks from '@/hooks/useAuthHooks';
 import React, { ReactNode } from 'react';
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
-  const { isAuth } = useAuth();
+  const { isAuth } = useAuthHooks();
   const location = useLocation();
 
   if (!isAuth) {

@@ -3,9 +3,9 @@ import { Form, Input, Button, Checkbox, message } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import type { FormProps } from 'antd';
-import { useAuth } from '@/components/AuthContext';
+import useAuthHooks from '@/hooks/useAuthHooks';
 import { DOMAIN_URL } from '@/commons/constants';
-import { User } from '@/utils/user';
+import { User } from '@/types/user';
 import httpRequest from '@/utils/http-request';
 
 type FieldType = {
@@ -16,7 +16,7 @@ type FieldType = {
 
 const LoginPage = () => {
   const [loading, setLoading] = useState(false);
-  const { login } = useAuth();
+  const { login } = useAuthHooks();
   const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
@@ -27,7 +27,7 @@ const LoginPage = () => {
         password: values.password
       });
       message.success('登录成功！');
-      login(res?.token, res?.user);
+      login({token: res?.token, user: res?.user});
       setTimeout(() => {
         navigate('/');
       }, 300);

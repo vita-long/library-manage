@@ -21,7 +21,7 @@ const menuItems = [
 export const PrivateLayout = () => (
   <Layout style={{ minHeight: '100vh' }}>
     <NavigationBar
-      logoText="企业门户"
+      logoText="仙灵灵"
       menuItems={menuItems}
     />
     <Content style={{ padding: '24px 48px' }}>

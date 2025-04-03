@@ -68,6 +68,7 @@ export const routes: CustomRoute[] = [
     children: [
       {
         index: true,
+        path: '/dashboard',
         key: 'dashboard-index',
         element: <Home />
       },

@@ -1,16 +1,17 @@
 import React from 'react';
 import { RouterProvider } from 'react-router-dom';
-import { AuthProvider,  } from '@/components/AuthContext';
 import { useListenStorage } from '@/hooks/listen-storage';
 import { router } from '@/router';
+import store from '@/store';
+import { Provider } from 'react-redux';
 
 const App = () => {
   useListenStorage();
 
   return (
-    <AuthProvider>
+    <Provider store={store}>
       <RouterProvider router={router} />
-    </AuthProvider>
+    </Provider>
   );
 };
 

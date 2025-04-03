@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layout, Menu, Button, Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { useAuth } from '@/components/AuthContext';
+import useAuthHooks from '@/hooks/useAuthHooks';
 import Xian from '../../commons/assets/images/xianlingling.jpg';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -26,7 +26,7 @@ const NavigationBar: React.FC<NavigationBarProps> = ({
   logoText = 'Logo',
   menuItems = []
 }) => {
-  const { isAuth, logout, user } = useAuth();
+  const { isAuth, user, logout} = useAuthHooks();
   const location = useLocation();
   const navigate = useNavigate();
   const [selectedKeys, setSelectedKeys] = useState<string[]>();

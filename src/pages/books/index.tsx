@@ -20,12 +20,10 @@ import { DOMAIN_URL } from '@/commons/constants';
 import { Book } from '@/types/books';
 import { Favorite } from './components/favorite';
 import httpRequest from '@/utils/http-request';
-import { useAuth } from '@/components/AuthContext';
 
 
 const BookList: React.FC = () => {
   const [form] = Form.useForm();
-  const { logout } = useAuth();
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
@@ -46,9 +44,7 @@ const BookList: React.FC = () => {
       setTotal(bookList.total);
       setLoading(false);
     } catch(error: any) {
-      if (error?.status === 401) {
-        logout();
-      }
+      console.log(error);
     }
   };
 

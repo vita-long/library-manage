@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useState } from 'react';
 import { Button, Upload, Progress, message } from 'antd';
 // import type { UploadProps } from 'antd';
-import { useAuth } from '@/components/AuthContext';
+import useAuthHooks from '@/hooks/useAuthHooks';
 import io, { Socket } from 'socket.io-client';
 
 import './index.less';
@@ -12,7 +12,7 @@ import httpRequest from '@/utils/http-request';
 // import { storage } from '@/utils/storage';
 
 const Home = () => {
-  const { logout } = useAuth();
+  const { logout } = useAuthHooks();
 
   const [progress, setProgress] = useState(0);
   const [socket, setSocket] = useState<Socket | undefined>();
