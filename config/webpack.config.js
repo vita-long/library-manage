@@ -40,6 +40,35 @@ function getStyle(pre) {
   ].filter(Boolean);
 }
 
+function getModuleStyle(pre) {
+  return [
+    isDevelopment ? 'style-loader' : MiniCssExtractPlugin.loader,
+    {
+      loader: 'css-loader',
+      options: {
+        modules: {
+          localIdentName: '[name]__[local]--[hash:base64:5]',
+          // 设置为true时css modules会使用named exports的到处方式，也就是命名导出
+          // 不能直接使用import styles from './switch.module.css';这种导出方式，会是undefined, 需要使用解构import { custom } from './switch.module.css'
+          // 设置false时是默认导出，可以使用import styles from './switch.module.css'
+          namedExport: false
+        },
+        importLoaders: 1 // ✅ 确保处理 @import 规则
+      },
+    },
+    {
+      // 处理css兼容性，需要package.json中的browserslist配合
+      loader: 'postcss-loader',
+      options: {
+        postcssOptions: {
+          plugins: ['postcss-preset-env']
+        }
+      }
+    },
+    pre
+  ].filter(Boolean);
+}
+
 module.exports = {
   entry: './src/index.tsx',
   output: {
@@ -86,7 +115,15 @@ module.exports = {
       },
       {
         test: /\.s[ac]ss$/,
-        use: getStyle('sass-loader')
+        oneOf: [
+          {
+            test: /\.module\.(scss|sass)$/,
+            use: getModuleStyle('sass-loader'),
+          },
+          {
+            use: getStyle('sass-loader')
+          }
+        ]
       },
       {
         test: /\.styl$/,

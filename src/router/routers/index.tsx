@@ -8,6 +8,7 @@ import LiveRegister from '@/pages/live-register';
 import Live from '@/pages/live';
 import LivePlayer from '@/pages/live/live-player';
 import HlsPlayer from '@/pages/live/hls-player';
+import Workbench from '@/pages/workbench';
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/home'));
 const Upload = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/upload'));
 const Books = lazy(() =>  import(/* webpackChunkName: 'books' */ '@/pages/books'));
@@ -35,6 +36,11 @@ export const routes: CustomRoute[] = [
     path: '/',
     key: 'index',
     element: <Navigate to="/dashboard" replace />
+  },
+  {
+    path: '/workbench',
+    key: 'workbench',
+    element: <Workbench />
   },
   {
     path: '/login',

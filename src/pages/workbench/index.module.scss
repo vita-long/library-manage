@@ -1,0 +1,38 @@
+.workbench {
+  display: flex;
+  flex-wrap: wrap;
+  width: 1200px;
+  margin: 0 auto;
+  padding: 100px;
+  gap: 20px;
+}
+
+.card {
+  width: 300px;
+  height: 232px;
+  border-radius: 8px;
+  border: 1px solid #f0f0f0;
+  background: #fff;
+  transition: box-shadow 0.3s, border-color 0.3s;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+
+  &Image {
+    flex: 1;
+  }
+  
+  &Title {
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1966ff;
+  }
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  border-color: transparent;
+}
+
