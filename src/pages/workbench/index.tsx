@@ -5,7 +5,7 @@ import CardDefault from '@/commons/assets/images/card-default.jpg';
 import styles from './index.module.scss';
 
 const WorkBench = () => {
-
+  console.log(222)
   return (
     <div className={styles.workbench}>
       <div className={styles.card}>

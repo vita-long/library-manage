@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 
 const App = () => {
   useListenStorage();
-
+  console.log(111);
   return (
     <Provider store={store}>
       <RouterProvider router={router} />
