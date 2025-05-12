@@ -4,10 +4,9 @@ import { RouteObject } from 'react-router-dom';
 import { Navigate } from 'react-router-dom';
 import Login from '@/pages/login';
 import Register from '@/pages/register';
-import LiveRegister from '@/pages/live-register';
 import Live from '@/pages/live';
 import LivePlayer from '@/pages/live/live-player';
-import HlsPlayer from '@/pages/live/hls-player';
+// import HlsPlayer from '@/pages/live/hls-player';
 import Workbench from '@/pages/workbench';
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/home'));
 const Upload = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/upload'));
@@ -56,14 +55,6 @@ export const routes: CustomRoute[] = [
     element: <Register />,
     meta: {
       title: '注册'
-    }
-  },
-  {
-    path: '/live-register',
-    key: 'live-register',
-    element: <LiveRegister />,
-    meta: {
-      title: '直播注册'
     }
   },
   {

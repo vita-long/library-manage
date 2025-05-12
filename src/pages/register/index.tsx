@@ -18,6 +18,7 @@ type FieldType = {
 
 const RegisterPage = () => {
   const [loading, setLoading] = useState(false);
+  const [captchaKey, setCaptchaKey] = useState<string>();
   const navigate = useNavigate();
 
   const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
@@ -32,7 +33,8 @@ const RegisterPage = () => {
         userName: values.username,
         email: values.email,
         password: values.password,
-        captcha: values.captcha
+        captcha: values.captcha,
+        captchaKey
       });
       message.success('注册成功！');
       setTimeout(() => {
@@ -41,6 +43,10 @@ const RegisterPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const getCaptchaKey = (key: string) => {
+    setCaptchaKey(key);
   };
 
   return (
@@ -124,7 +130,7 @@ const RegisterPage = () => {
             />
           </Form.Item>
 
-          <CaptchaInput name="captcha" refreshKey={4} />
+          <CaptchaInput name="captcha" refreshKey={4} getCaptchaKey={getCaptchaKey} />
 
           {/* 用户协议 */}
           <Form.Item<FieldType>

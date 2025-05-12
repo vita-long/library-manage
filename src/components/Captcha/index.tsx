@@ -7,6 +7,7 @@ import httpRequest from '@/utils/http-request';
 interface CaptchaInputProps {
   name: string;
   refreshKey?: number;
+  getCaptchaKey: (key: string) => void;
 }
 
 /**
@@ -14,7 +15,7 @@ interface CaptchaInputProps {
  * @param param0 
  * @returns 
  */
-export const CaptchaInput = ({ name, refreshKey }: CaptchaInputProps) => {
+export const CaptchaInput = ({ name, refreshKey, getCaptchaKey }: CaptchaInputProps) => {
   const [captchaSrc, setCaptchaSrc] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -23,7 +24,8 @@ export const CaptchaInput = ({ name, refreshKey }: CaptchaInputProps) => {
     try {
       setLoading(true);
       const timestamp = Date.now();
-      const svg = await httpRequest.get<any, { captcha: string }>(`${DOMAIN_URL}/user/captcha?t=${timestamp}`);
+      const svg = await httpRequest.get<any, { captcha: string, captchaKey: string }>(`${DOMAIN_URL}/user/captcha?t=${timestamp}`);
+      getCaptchaKey(svg.captchaKey);
       setCaptchaSrc(`data:image/svg+xml;utf8,${encodeURIComponent(svg?.captcha)}`);
       setError('');
     } catch (err) {

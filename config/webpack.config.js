@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const EslintWebpackPlugin = require('eslint-webpack-plugin');
 // 单独提取css文件
@@ -187,7 +188,10 @@ module.exports = {
         }
       ]
     }),
-    isDevelopment && new ReactRefreshWebpackPlugin()
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+    })
   ].filter(Boolean),
   devtool: isDevelopment ? 'cheap-module-source-map' : 'source-map',
   optimization: {
