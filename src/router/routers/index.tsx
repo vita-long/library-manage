@@ -11,6 +11,7 @@ import Workbench from '@/pages/workbench';
 const Home = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/home'));
 const Upload = lazy(() =>  import(/* webpackChunkName: 'about' */ '@/pages/upload'));
 const Books = lazy(() =>  import(/* webpackChunkName: 'books' */ '@/pages/books'));
+const BookDetail = lazy(() =>  import(/* webpackChunkName: 'booksDetail' */ '@/pages/books/detail'));
 const NotFound = lazy(() =>  import(/* webpackChunkName: 'NotFound' */ '@/components/NotFound'));
 
 
@@ -69,10 +70,16 @@ export const routes: CustomRoute[] = [
         key: 'dashboard-index',
         element: <Home />
       },
+      // 在dashboard的子路由中添加图书详情路由
       {
         path: 'books',
         key: 'dashboard-books',
         element: <Books />
+      },
+      {
+        path: 'books/:id',
+        key: 'dashboard-book-detail',
+        element: <BookDetail />
       },
       {
         path: 'upload',

@@ -14,8 +14,8 @@ import {
 const menuItems = [
   { key: '/dashboard', icon: <HomeOutlined />, label: '首页' },
   { key: '/dashboard/books', icon: <UserOutlined />, label: '书籍' },
-  { key: '/dashboard/upload', icon: <ContactsOutlined />, label: '上传' },
-  { key: '/dashboard/live', icon: <ContactsOutlined />, label: '直播' },
+  // { key: '/dashboard/upload', icon: <ContactsOutlined />, label: '上传' },
+  // { key: '/dashboard/live', icon: <ContactsOutlined />, label: '直播' },
 ];
 
 export const PrivateLayout = () => (

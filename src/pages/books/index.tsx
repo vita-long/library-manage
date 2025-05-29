@@ -20,10 +20,13 @@ import { DOMAIN_URL } from '@/commons/constants';
 import { Book } from '@/types/books';
 import { Favorite } from './components/favorite';
 import httpRequest from '@/utils/http-request';
+import { useNavigate } from 'react-router-dom';
+import { EyeOutlined } from '@ant-design/icons';
 
 
 const BookList: React.FC = () => {
   const [form] = Form.useForm();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [pageSize] = useState(10);
@@ -53,8 +56,8 @@ const BookList: React.FC = () => {
     Modal.confirm({
       title: '确认删除',
       content: '确定要删除这本图书吗？',
-      onOk: () => {
-        httpRequest.delete(`${DOMAIN_URL}/books?id=${id}`);
+      onOk: async () => {
+        await httpRequest.delete(`${DOMAIN_URL}/books?id=${id}`);
         message.success('删除成功');
         fetchBooks(1);
       }
@@ -175,11 +178,18 @@ const BookList: React.FC = () => {
                       src={item.cover}
                       className="w-full h-full object-cover"
                     />
+                    
+                    {/* 在列表项按钮组中添加详情按钮 */}
                     <div className="absolute top-2 left-2 space-x-2">
                       <Button
                         icon={<EditOutlined />}
                         shape="circle"
                         onClick={() => openEditModal(item)}
+                      />
+                      <Button
+                        icon={<EyeOutlined />}
+                        shape="circle"
+                        onClick={() => navigate(`/dashboard/books/${item.id}`)}
                       />
                       <Button
                         danger
