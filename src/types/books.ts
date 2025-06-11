@@ -7,4 +7,5 @@ export interface Book {
   description?: string;
   isFavorite?: boolean;
   isBorrow?: 0 | 1;
+  borrowDate?: string;
 }

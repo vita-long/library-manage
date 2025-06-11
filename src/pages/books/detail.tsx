@@ -89,7 +89,13 @@ const BookDetail: React.FC = () => {
                     </Button>
                   )
                 }
+                <div>
+                  归还日期：{dayjs(book.borrowDate).format('YYYY-MM-DD')}
+                </div>
                 
+                <div>
+                  <Button>提前归还</Button>
+                </div>
               </div>
             </div>
           )}
